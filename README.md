@@ -1,16 +1,9 @@
-# tawzeaf
+# Tawzeaf.com
 
-A new Flutter project.
+An App for a job announcement company [Tawzeaf](https://tawzeaf.com/) with no apis just scrapping
 
-## Getting Started
+## App real design
 
-This project is a starting point for a Flutter application.
+some images of the project hope to understand and get Benefits from it
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="assets/mockup.png">
