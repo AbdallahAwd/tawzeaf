@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:tawzeaf/scraping/home_bloc/web_scraping.dart';
 import 'package:tawzeaf/scraping/home_bloc/web_scraping_states.dart';
 import 'package:tawzeaf/scraping/search_bloc/search_bloc.dart';
@@ -12,11 +13,14 @@ import 'scraping/cat_bloc/category_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await CacheHelper.init();
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Color(0xffceffe9)));
 
   Bloc.observer = MyBlocObserver();
+  MobileAds.instance.initialize();
+
   runApp(const MyApp());
 }
 

@@ -288,7 +288,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                               WbScarping.get(context).allJobs.titles!.length) {
                             return AllJobsBuilder(
                               size: size,
-                              location: index >= 90
+                              index: index,
+                              location: index >= 150
                                   ? 'الرياض'
                                   : WbScarping.get(context)
                                       .allJobs

@@ -95,6 +95,7 @@ class _CategoryJobsState extends State<CategoryJobs>
                     padding: const EdgeInsets.all(18),
                     itemBuilder: (context, index) {
                       return AllJobsBuilder(
+                        index: index,
                         jobDetailsUrl: CategoryBloc.get(context)
                             .jobCategory
                             .jobDetailsUrl[index]!,

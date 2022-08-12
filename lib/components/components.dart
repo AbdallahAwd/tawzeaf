@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../ads/apply_ad.dart';
+import '../ads/banner.dart';
 import '../views/category_jobs.dart';
 import '../views/job_details.dart';
 
@@ -114,6 +116,7 @@ Widget newJobBuilder(
 }) {
   return InkWell(
     onTap: () {
+      ApplyAd.loadDoneAd();
       Navigator.push(
           context,
           PageTransition(
@@ -194,6 +197,7 @@ class AllJobsBuilder extends StatelessWidget {
     required this.size,
     required this.jobTitle,
     required this.jobType,
+    required this.index,
     this.isSearch = false,
     required this.jobImage,
     required this.jobDetailsUrl,
@@ -208,12 +212,14 @@ class AllJobsBuilder extends StatelessWidget {
   final String location;
   final String salary;
   final bool isSearch;
+  final int index;
   final String jobDetailsUrl;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        ApplyAd.loadDoneAd();
         Navigator.push(
             context,
             PageTransition(
@@ -225,149 +231,159 @@ class AllJobsBuilder extends StatelessWidget {
                 ),
                 type: PageTransitionType.leftToRight));
       },
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: const [
-              BoxShadow(
-                blurRadius: 4,
-                blurStyle: BlurStyle.outer,
-                color: Colors.grey,
-                offset: Offset(0, 4),
-              ),
-            ],
-            borderRadius: BorderRadius.circular(15)),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Image.network(
-                    jobImage,
-                    width: 100,
-                    height: 50,
-                    errorBuilder: ((context, error, stackTrace) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Icon(
-                          Icons.error,
-                          size: 50,
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(
-                    width: size.width - 150,
-                    child: Text(
-                      jobTitle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontFamily: 'Cairo',
-                      ),
-                    ),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 4,
+                    blurStyle: BlurStyle.outer,
+                    color: Colors.grey,
+                    offset: Offset(0, 4),
                   ),
                 ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Row(
-                  children: <Widget>[
-                    const Text(
-                      "الموقع :",
-                      style: TextStyle(
-                        fontFamily: 'Cairo',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 35,
-                    ),
-                    Text(
-                      location,
-                      style: const TextStyle(fontFamily: 'Cairo'),
-                    )
-                  ],
-                ),
-              ),
-              isSearch
-                  ? const SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Row(
-                        children: <Widget>[
-                          const Text(
-                            "الراتب :",
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
+                borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Image.network(
+                        jobImage,
+                        width: 100,
+                        height: 50,
+                        errorBuilder: ((context, error, stackTrace) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Icon(
+                              Icons.error,
+                              size: 50,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 35,
-                          ),
-                          Text(
-                            salary,
-                            style: const TextStyle(fontFamily: 'Cairo'),
-                          )
-                        ],
+                          );
+                        }),
                       ),
-                    ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: const Color(0xff1BBF73),
-                        minimumSize: const Size(100, 30),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                          bottomRight: Radius.zero,
-                          topRight: Radius.zero,
-                          bottomLeft: Radius.circular(12),
-                          topLeft: Radius.circular(12),
-                        ))),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return JobDetails(
-                          title: jobTitle,
-                          imageUrl: jobImage,
-                          detailsUrl: jobDetailsUrl,
-                          jobType: jobType,
-                        );
-                      }));
-                    },
-                    child: const Text('التفاصيل'),
+                      SizedBox(
+                        width: size.width - 150,
+                        child: Text(
+                          jobTitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Cairo',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    width: 70,
-                    height: 20,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(12),
-                          topRight: Radius.circular(12)),
-                      color: Color(0xffCEFFE9),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        jobType,
-                        textDirection: TextDirection.ltr,
-                      ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Row(
+                      children: <Widget>[
+                        const Text(
+                          "الموقع :",
+                          style: TextStyle(
+                            fontFamily: 'Cairo',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 35,
+                        ),
+                        Text(
+                          location,
+                          style: const TextStyle(fontFamily: 'Cairo'),
+                        )
+                      ],
                     ),
                   ),
+                  isSearch
+                      ? const SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: Row(
+                            children: <Widget>[
+                              const Text(
+                                "الراتب :",
+                                style: TextStyle(
+                                  fontFamily: 'Cairo',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 35,
+                              ),
+                              Text(
+                                salary,
+                                style: const TextStyle(fontFamily: 'Cairo'),
+                              )
+                            ],
+                          ),
+                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: const Color(0xff1BBF73),
+                            minimumSize: const Size(100, 30),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                              bottomRight: Radius.zero,
+                              topRight: Radius.zero,
+                              bottomLeft: Radius.circular(12),
+                              topLeft: Radius.circular(12),
+                            ))),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return JobDetails(
+                              title: jobTitle,
+                              imageUrl: jobImage,
+                              detailsUrl: jobDetailsUrl,
+                              jobType: jobType,
+                            );
+                          }));
+                        },
+                        child: const Text('التفاصيل'),
+                      ),
+                      Container(
+                        width: 70,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(12),
+                              topRight: Radius.circular(12)),
+                          color: Color(0xffCEFFE9),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            jobType,
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
+          index % 5 == 0
+              ? const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: RectBannerAd(),
+                )
+              : const SizedBox(),
+        ],
       ),
     );
   }
@@ -377,6 +393,7 @@ class TawzeafScaffold extends StatelessWidget {
   final AppBar? appBar;
   final Widget body;
   final Widget? drawer;
+  final Widget? navigate;
 
   final Color? backColor;
 
@@ -386,6 +403,7 @@ class TawzeafScaffold extends StatelessWidget {
     required this.body,
     this.drawer,
     this.backColor,
+    this.navigate,
   }) : super(key: key);
 
   @override
@@ -394,6 +412,7 @@ class TawzeafScaffold extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: backColor,
+        bottomNavigationBar: navigate,
         appBar: appBar,
         body: body,
         drawer: drawer,

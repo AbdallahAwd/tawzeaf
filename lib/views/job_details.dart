@@ -5,6 +5,7 @@ import 'package:tawzeaf/components/components.dart';
 import 'package:tawzeaf/scraping/cat_bloc/category_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../ads/apply_ad.dart';
 import '../scraping/home_bloc/web_scraping.dart';
 import '../scraping/home_bloc/web_scraping_states.dart';
 
@@ -262,6 +263,7 @@ class _JobDetailsState extends State<JobDetails> {
                                 right: 20, left: 20, bottom: 20),
                             child: ElevatedButton(
                               onPressed: () async {
+                                ApplyAd.showDoneAd();
                                 if (await launchUrl(Uri.parse(
                                     WbScarping.get(context)
                                         .jobDetailsModel
